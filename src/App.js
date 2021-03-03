@@ -19,8 +19,22 @@ function App() {
     return () => clearInterval(intervalId);
   })
 
+  const submit = () => {
+    setMessages([...messages, {
+      text: value, 
+      author: `you`
+    }])
+    setValue('')
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      submit()
+    }
+  }
+
   return (
-    <div className="App" style={{display: `flex`, flexDirection: `column`, width: `100%`, padding: `10px`}}>
+    <div className="App" style={{display: `flex`, flexDirection: `column`, width: `100%`, padding: `10px`, marginBottom: `50px`}}>
       {messages.map((message, index) => {
         return (
         <div key={message.text} style={{
@@ -31,7 +45,7 @@ function App() {
           display: `flex`, 
           flexDirection: `column`, 
           boxShadow: `2px 2px 9px -6px #000000`,
-          borderRadius: `5px`
+          borderRadius: `5px`,
         }}>
           <span style={{color: `gray`, fontSize: 10}}>{message.author} said:</span>
           <span>{message.text}</span>
@@ -41,14 +55,8 @@ function App() {
       })} 
 
       <div style={{position: `fixed`, bottom: 0, left: 0, height: `50px`, width: `100%`, backgroundColor: `gray`}}>
-        <input value={value} onChange={e => setValue(e.target.value)} type="text" style={{marginLeft: `10px`, marginTop: `2px`, height: `40px`, width: `800px`}}></input>
-        <button style={{marginLeft: `5px`, height: `40px`}} onClick={() => {
-                setMessages([...messages, {
-                  text: value, 
-                  author: `you`
-                }])
-                setValue('')
-        }}>Send</button>
+        <input value={value} onKeyDown={handleKeyDown} onChange={e => setValue(e.target.value)} type="text" style={{marginLeft: `10px`, marginTop: `2px`, height: `40px`, width: `800px`}}></input>
+        <button style={{marginLeft: `5px`, height: `40px`}} onClick={submit} >Send</button>
       </div>
     </div>
   );
