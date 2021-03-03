@@ -40,7 +40,7 @@ function App() {
         )
       })} 
 
-      <div style={{position: `absolute`, bottom: 0, left: 0, height: `50px`, width: `100%`, backgroundColor: `gray`}}>
+      <div style={{position: `fixed`, bottom: 0, left: 0, height: `50px`, width: `100%`, backgroundColor: `gray`}}>
         <input value={value} onChange={e => setValue(e.target.value)} type="text" style={{marginLeft: `10px`, marginTop: `2px`, height: `40px`, width: `800px`}}></input>
         <button style={{marginLeft: `5px`, height: `40px`}} onClick={() => {
                 setMessages([...messages, {
