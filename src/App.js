@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import randomWords from 'random-words';
-
+import { TezosToolkit } from '@taquito/taquito';
 import './App.css';
+const tezos = new TezosToolkit('https://api.tez.ie/rpc/delphinet');
 
 function App() {
   const [messages, setMessages] = useState([])
@@ -33,6 +34,18 @@ function App() {
     }
   }
 
+  const accessTezosNetwork = () => {
+    tezos.tz
+    .getBalance('tz1h3rQ8wBxFd8L9B3d7Jhaawu6Z568XU3xY')
+    .then((balance) => {
+      setMessages([...messages, {
+        text: `${balance.toNumber() / 1000000} ꜩ`, 
+        author: `Tezos Network`
+      }])
+    })
+    .catch((error) => console.log(JSON.stringify(error)));
+  }
+
   return (
     <div className="App" style={{display: `flex`, flexDirection: `column`, width: `100%`, padding: `10px`, marginBottom: `50px`}}>
       {messages.map((message, index) => {
@@ -57,6 +70,7 @@ function App() {
       <div style={{position: `fixed`, bottom: 0, left: 0, height: `50px`, width: `100%`, backgroundColor: `gray`}}>
         <input value={value} onKeyDown={handleKeyDown} onChange={e => setValue(e.target.value)} type="text" style={{marginLeft: `10px`, marginTop: `2px`, height: `40px`, width: `800px`}}></input>
         <button style={{marginLeft: `5px`, height: `40px`}} onClick={submit} >Send</button>
+        <button onClick={accessTezosNetwork}>Access Tezos Network </button>
       </div>
     </div>
   );
